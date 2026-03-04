@@ -1,0 +1,33 @@
+# Amasamos / Pizzamos (Bucaramanga, Colombia)
+
+## About
+Amasamos.com es el dominio principal que aloja un ecosistema gastronómico dividido en dos líneas de negocio independientes y especializadas: Amasar Institucional (operación B2B) y Pizzamos (operación B2C).
+
+## 1. Amasar Institucional (B2B)
+Empresa de panadería especializada en proveer soluciones integrales para el sector gastronómico, principalmente restaurantes de comidas rápidas.
+- Productos principales: Pan brioche para hamburguesas.
+- Líneas de producto: Standard y Premium.
+- Enfoque comercial: Venta por volumen, estandarización para múltiples sedes y proveeduría para eventos gastronómicos (ferias, concursos).
+
+## 2. Pizzamos (B2C)
+Pizzería con enfoque artesanal dirigida al consumidor final.
+- Productos principales: Pizzas artesanales de 6 porciones, sándwiches, ensaladas y bebidas naturales.
+- Modalidad operativa: Menú digital interactivo y sistema de reservas en línea
+
+## Key pages
+- Home: https://www.amasamos.com/
+- Pizzamos (menú): https://www.amasamos.com/pizzamos
+- Reservas: https://www.amasamos.com/reservas
+- Contacto: https://www.amasamos.com/contacto
+- Amasar (institucional): https://www.amasamos.com/amasar
+- Línea Standard: https://www.amasamos.com/amasar/standard
+- Línea Premium: https://www.amasamos.com/amasar/premium
+
+## Reservas
+Google Form: https://forms.gle/7gKResiLxjxMmA537
+
+## Contact
+City: Bucaramanga, Colombia
+WhatsApp Pizzamos: https://wa.me/573003614569
+WhatsApp Amasamos: https://wa.me/573054500425
+Email: ventas@amasamos.com
