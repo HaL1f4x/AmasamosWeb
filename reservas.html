@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reservas | Pizzamos</title>
+  <meta name="description" content="Reserva tu mesa en Pizzamos mediante formulario embebido y enlace directo.">
+  <meta property="og:title" content="Reservas | Pizzamos">
+  <meta property="og:description" content="Las reservas están sujetas a disponibilidad. Completa el formulario para reservar.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/photos/Pizza/Maite.png">
+  <meta property="og:locale" content="es_CO">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Reservas Pizzamos",
+    "url": "https://hal1f4x.github.io/AmasamosWeb/reservas.html",
+    "potentialAction": {
+      "@type": "ReserveAction",
+      "target": "https://forms.gle/7gKResiLxjxMmA537"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html">Amasamos</a>
+      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-label="Abrir menú principal">Menú</button>
+      <nav class="nav-menu" data-nav-menu>
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="pizzamos.html">Pizzamos</a>
+        <a class="nav-link active" href="reservas.html">Reservas</a>
+        <div class="dropdown" data-dropdown>
+          <a class="dropdown-button" href="amasar/index.html">Amasar Institucional</a>
+          <div class="dropdown-menu">
+            <a class="nav-link" href="amasar/index.html">Amasar Institucional</a>
+            <a class="nav-link" href="amasar/standard.html">Línea Standard</a>
+            <a class="nav-link" href="amasar/premium.html">Línea Premium</a>
+          </div>
+        </div>
+        <a class="nav-link" href="contacto.html">Contáctanos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <p class="kicker">Reservar mesa en Pizzamos</p>
+      <h1>Reservas</h1>
+      <p>Puedes reservar tu mesa utilizando el siguiente formulario. Las reservas están sujetas a disponibilidad del restaurante.</p>
+
+      <div class="embed-wrap">
+        <iframe src="https://forms.gle/7gKResiLxjxMmA537" title="Formulario de reservas de Pizzamos" loading="lazy"></iframe>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <h2>Si el formulario no carga</h2>
+        <p>Abre el formulario directamente en una nueva pestaña:</p>
+        <a class="btn secondary" href="https://forms.gle/7gKResiLxjxMmA537" target="_blank" rel="noopener">Abrir formulario de reservas</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Reserva en línea o escríbenos por WhatsApp para confirmar disponibilidad.</p>
+    </div>
+  </footer>
+<script src="script.js"></script>
+</body>
+</html>
