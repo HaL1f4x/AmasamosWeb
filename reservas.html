@@ -50,19 +50,214 @@
     <div class="container">
       <p class="kicker">Reservar mesa en Pizzamos</p>
       <h1>Reservas</h1>
-      <p>Puedes reservar tu mesa utilizando el siguiente formulario. Las reservas están sujetas a disponibilidad del restaurante.</p>
+      <p>Completa el formulario para reservar tu mesa. Las reservas están sujetas a disponibilidad del restaurante.</p>
 
-      <div class="embed-wrap">
-        <iframe src="https://forms.gle/7gKResiLxjxMmA537" title="Formulario de reservas de Pizzamos" loading="lazy"></iframe>
-      </div>
-
-      <div class="card" style="margin-top:16px;">
-        <h2>Si el formulario no carga</h2>
-        <p>Abre el formulario directamente en una nueva pestaña:</p>
-        <a class="btn secondary" href="https://forms.gle/7gKResiLxjxMmA537" target="_blank" rel="noopener">Abrir formulario de reservas</a>
-      </div>
+      <form id="reserva-form" class="card reserva-form" novalidate>
+        <div class="form-group">
+          <label for="nombre">Nombre Completo</label>
+          <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo">
+        </div>
+        <div class="form-group">
+          <label for="telefono">Teléfono Celular</label>
+          <input type="tel" id="telefono" name="telefono" required placeholder="Ej. 300 361 4569">
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" required placeholder="tu@correo.com">
+        </div>
+        <div class="form-group">
+          <fieldset class="radio-group">
+            <legend>Método preferido de contacto</legend>
+            <label class="radio-label"><input type="radio" name="contacto" value="Teléfono" required> Teléfono</label>
+            <label class="radio-label"><input type="radio" name="contacto" value="E-mail"> E-mail</label>
+            <label class="radio-label"><input type="radio" name="contacto" value="WhatsApp"> WhatsApp</label>
+          </fieldset>
+        </div>
+        <div class="form-group">
+          <label for="motivo">Motivo de la reserva</label>
+          <select id="motivo" name="motivo" required>
+            <option value="" disabled selected>Selecciona un motivo</option>
+            <option value="Cumpleaños">Cumpleaños</option>
+            <option value="Aniversario">Aniversario</option>
+            <option value="Reunión de trabajo">Reunión de trabajo</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fecha">Fecha de la reserva</label>
+            <input type="date" id="fecha" name="fecha" required>
+            <span id="fecha-error" class="field-error" hidden></span>
+          </div>
+          <div class="form-group">
+            <label for="hora">Hora de la reserva</label>
+            <select id="hora" name="hora" required>
+              <option value="" disabled selected>Selecciona una hora</option>
+              <option value="4:00 PM">4:00 PM</option>
+              <option value="4:30 PM">4:30 PM</option>
+              <option value="5:00 PM">5:00 PM</option>
+              <option value="5:30 PM">5:30 PM</option>
+              <option value="6:00 PM">6:00 PM</option>
+              <option value="6:30 PM">6:30 PM</option>
+              <option value="7:00 PM">7:00 PM</option>
+              <option value="7:30 PM">7:30 PM</option>
+              <option value="8:00 PM">8:00 PM</option>
+              <option value="8:30 PM">8:30 PM</option>
+              <option value="9:00 PM">9:00 PM</option>
+              <option value="9:30 PM">9:30 PM</option>
+              <option value="10:00 PM">10:00 PM</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="personas">Cantidad de personas</label>
+          <select id="personas" name="personas" required>
+            <option value="" disabled selected>Selecciona</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10+">10+</option>
+          </select>
+        </div>
+        <div id="form-feedback" class="form-feedback" hidden></div>
+        <button type="submit" class="btn primary">Enviar reserva</button>
+      </form>
     </div>
   </main>
+
+  <script>
+    (function () {
+      var form       = document.getElementById('reserva-form');
+      var feedback   = document.getElementById('form-feedback');
+      var fechaInput = document.getElementById('fecha');
+      var fechaError = document.getElementById('fecha-error');
+      var ENDPOINT   = 'https://script.google.com/macros/s/AKfycbw4gmYzYCQDKd3iErdRRBonVm2rKXgjKeuOigbY9nQcEN_EuQzVsEs7krsRQKh7JXtd0g/exec';
+
+      /* ── Holiday cache ───────────────────────────────────── */
+      var holidays    = new Set();   // YYYY-MM-DD strings
+      var loadedYears = {};          // year -> Promise
+
+      function loadHolidays(year) {
+        if (loadedYears[year]) return loadedYears[year];
+        var p = fetch('https://date.nager.at/api/v3/PublicHolidays/' + year + '/CO')
+          .then(function (r) { return r.json(); })
+          .then(function (list) { list.forEach(function (h) { holidays.add(h.date); }); })
+          .catch(function () {});
+        loadedYears[year] = p;
+        return p;
+      }
+
+      /* ── Date helpers ────────────────────────────────────── */
+      function toYMD(d) {
+        return d.getFullYear() + '-' +
+          String(d.getMonth() + 1).padStart(2, '0') + '-' +
+          String(d.getDate()).padStart(2, '0');
+      }
+
+      var todayYMD = toYMD(new Date());
+      fechaInput.min = todayYMD;
+
+      /* Pre-load current year on page load */
+      loadHolidays(new Date().getFullYear());
+
+      /* ── Date validation ─────────────────────────────────── */
+      function validateFecha(ymd) {
+        fechaError.hidden = true;
+
+        if (ymd < todayYMD) {
+          return setFechaError('No puedes reservar en una fecha pasada.');
+        }
+
+        var parts = ymd.split('-');
+        /* Use UTC noon to avoid off-by-one from timezone offsets */
+        var d = new Date(Date.UTC(+parts[0], +parts[1] - 1, +parts[2], 12));
+
+        if (d.getUTCDay() === 0) {
+          return setFechaError('No atendemos los domingos. Por favor elige otro día.');
+        }
+        if (holidays.has(ymd)) {
+          return setFechaError('Esta fecha es festivo en Colombia. Por favor elige otro día.');
+        }
+        return true;
+      }
+
+      function setFechaError(msg) {
+        fechaError.textContent = msg;
+        fechaError.hidden = false;
+        fechaInput.value = '';
+        return false;
+      }
+
+      fechaInput.addEventListener('change', function () {
+        var ymd = fechaInput.value;
+        if (!ymd) return;
+        var year = parseInt(ymd.split('-')[0], 10);
+        /* If the user picked a date in a year not yet fetched, load it first */
+        loadHolidays(year).then(function () { validateFecha(ymd); });
+      });
+
+      /* ── Submit ──────────────────────────────────────────── */
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        feedback.hidden = true;
+        feedback.className = 'form-feedback';
+
+        var contactoEl = form.querySelector('input[name="contacto"]:checked');
+        if (!contactoEl) {
+          showFeedback('error', 'Por favor selecciona un método de contacto.');
+          return;
+        }
+
+        if (fechaInput.value && !validateFecha(fechaInput.value)) return;
+
+        var data = {
+          nombre:   form.nombre.value.trim(),
+          telefono: form.telefono.value.trim(),
+          email:    form.email.value.trim(),
+          contacto: contactoEl.value,
+          motivo:   form.motivo.value,
+          fecha:    fechaInput.value,
+          hora:     form.hora.value,
+          personas: form.personas.value,
+        };
+
+        var btn = form.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        var originalText = btn.textContent;
+        btn.textContent = 'Enviando\u2026';
+
+        try {
+          await fetch(ENDPOINT, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+          showFeedback('success', '¡Reserva enviada! Nos pondremos en contacto contigo para confirmar la disponibilidad.');
+          form.reset();
+          fechaError.hidden = true;
+        } catch (err) {
+          showFeedback('error', 'Ocurrió un error al enviar la reserva. Por favor intenta de nuevo o escríbenos por WhatsApp.');
+        } finally {
+          btn.disabled = false;
+          btn.textContent = originalText;
+        }
+      });
+
+      function showFeedback(type, message) {
+        feedback.className = 'form-feedback ' + type;
+        feedback.textContent = message;
+        feedback.hidden = false;
+        feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    })();
+  </script>
 
   <footer class="footer"></footer>
 <script src="script.js"></script>
