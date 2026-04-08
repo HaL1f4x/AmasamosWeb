@@ -125,6 +125,15 @@
             <option value="10+">10+</option>
           </select>
         </div>
+        <div class="form-group form-consent">
+          <label class="checkbox-label">
+            <input type="checkbox" id="autorizo" name="autorizo">
+            <span>Autorizo el tratamiento de mis datos personales conforme a la
+              <a href="politica-de-datos.html" target="_blank" rel="noopener">Política de Protección de Datos Personales</a>
+              de Pizzamos (Ley 1581 de 2012).
+            </span>
+          </label>
+        </div>
         <div id="form-feedback" class="form-feedback" hidden></div>
         <button type="submit" class="btn primary">Enviar reserva</button>
       </form>
@@ -225,6 +234,7 @@
           fecha:    fechaInput.value,
           hora:     form.hora.value,
           personas: form.personas.value,
+          autorizo: form.autorizo.checked,
         };
 
         var btn = form.querySelector('button[type="submit"]');
@@ -259,7 +269,11 @@
     })();
   </script>
 
-  <footer class="footer"></footer>
+  <footer class="footer">
+    <div class="footer-inner container">
+      <a href="politica-de-datos.html" class="footer-link">Política de datos</a>
+    </div>
+  </footer>
 <script src="script.js"></script>
 </body>
 </html>

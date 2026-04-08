@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/carlos.chacon/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/9aa3fa39-5758-4671-b72e-2933639b77d0/f576ed22-943d-4877-b080-95adec339043/skills/docx/**)",
+      "Bash(pandoc --track-changes=all \"C:\\\\Users\\\\carlos.chacon\\\\Downloads\\\\Politica_Datos_Amasamos.docx\" -o output.md)",
+      "Bash(python scripts/office/unpack.py \"C:\\\\Users\\\\carlos.chacon\\\\Downloads\\\\Politica_Datos_Amasamos.docx\" unpacked_politica/)",
+      "Bash(python3 -c ':*)"
+    ]
+  }
+}

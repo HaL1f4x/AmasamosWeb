@@ -452,6 +452,34 @@ p {
   color: #a12b1e;
 }
 
+.form-consent {
+  margin-bottom: 20px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-weight: 400;
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.checkbox-label input[type="checkbox"] {
+  accent-color: var(--brand);
+  width: 17px;
+  height: 17px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.checkbox-label a {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 .field-error {
   font-size: 0.87rem;
   color: #a12b1e;
@@ -478,7 +506,152 @@ p {
 .footer {
   margin-top: 30px;
   background-color: #000;
-  padding: 26px 0;
+  padding: 20px 0;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-link {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.85rem;
+  transition: color 0.15s;
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+  color: #fff;
+}
+
+/* ── Política de datos ───────────────────────────────────── */
+.politica-wrap {
+  max-width: 800px;
+}
+
+.politica-meta {
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+}
+
+.politica-intro {
+  margin-bottom: 28px;
+}
+
+.politica-intro ul {
+  margin: 10px 0 10px 20px;
+  padding: 0;
+}
+
+.politica-toc {
+  margin-bottom: 40px;
+  padding: 18px 24px;
+}
+
+.politica-toc-title {
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.politica-toc ul {
+  margin: 0;
+  padding: 0 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.politica-toc a {
+  color: var(--brand);
+  font-weight: 600;
+  font-size: 0.97rem;
+}
+
+.politica-toc a:hover {
+  text-decoration: underline;
+}
+
+.politica-seccion {
+  margin-bottom: 60px;
+}
+
+.politica-seccion-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+  border-bottom: 2px solid var(--brand);
+  padding-bottom: 10px;
+  margin-bottom: 28px;
+}
+
+.politica-seccion-header h2 {
+  margin: 0;
+}
+
+.politica-tag {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.politica-bloque {
+  margin-bottom: 28px;
+}
+
+.politica-bloque h3 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.politica-bloque h4 {
+  font-size: 0.97rem;
+  font-weight: 700;
+  margin: 16px 0 6px;
+  color: var(--ink);
+}
+
+.politica-bloque ul,
+.politica-intro ul {
+  padding-left: 20px;
+  margin: 6px 0 10px;
+}
+
+.politica-bloque li {
+  margin-bottom: 4px;
+}
+
+.politica-dl dt {
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.politica-dl dd {
+  margin: 2px 0 0 16px;
+  color: var(--muted);
+}
+
+.politica-firma {
+  margin-top: 20px;
+  line-height: 1.8;
+  font-size: 0.97rem;
+}
+
+.politica-pie {
+  text-align: center;
+  font-size: 0.88rem;
+  margin-top: 40px;
+  padding-bottom: 10px;
 }
 
 .whatsapp-stack {
