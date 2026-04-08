@@ -43,7 +43,7 @@
     .home-divider {
       width: 72px;
       height: 4px;
-      background: #C9561E;
+      background: #3D5C40;
       border-radius: 2px;
       margin: 0 auto 22px;
     }
@@ -61,7 +61,7 @@
       font-family: 'Playfair Display', serif;
       font-size: 1.35rem;
       font-weight: 700;
-      color: #C9561E;
+      color: #3D5C40;
       margin: 0;
     }
 
@@ -90,10 +90,12 @@
     }
 
     .home-card--amasar { background: #2C1A0E; }
-    .home-card--amasar:hover { border-color: #C9561E; }
+    .home-card--amasar:hover { border-color: #3D5C40; }
 
-    .home-card--pizzamos { background: #C9561E; }
-    .home-card--pizzamos:hover { border-color: #2C1A0E; }
+    .home-card--pizzamos { background: #243D27; }
+    .home-card--pizzamos:hover { border-color: #F5F0E8; }
+    .home-card--pizzamos .home-card__logo { background: #F5F0E8; border-radius: 12px 12px 0 0; }
+    .home-card--pizzamos .home-card__logo img { mix-blend-mode: multiply; }
 
     .home-card__image {
       height: 160px;
@@ -106,17 +108,18 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center 80%;
       display: block;
-      opacity: 0.55;
+      opacity: 0.85;
       transform: scale(1.04);
-      filter: sepia(30%) brightness(0.85);
+      filter: sepia(15%) brightness(1.05);
     }
 
     .home-card__image::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(44,26,14,0.15) 0%, rgba(44,26,14,0.55) 100%);
+      background: linear-gradient(to bottom, rgba(44,26,14,0.05) 0%, rgba(44,26,14,0.30) 100%);
     }
 
     .home-card__logo {
@@ -124,12 +127,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 12px 16px;
       flex-shrink: 0;
     }
 
     .home-card__logo img {
-      max-height: 116px;
+      width: 100%;
+      max-height: 148px;
       object-fit: contain;
       display: block;
     }
@@ -168,7 +172,7 @@
       color: #F5F0E8;
     }
 
-    .home-card--amasar .home-card__cta { color: #C9561E; }
+    .home-card--amasar .home-card__cta { color: #8DAF90; }
 
     @media (max-width: 640px) {
       .home-selector { padding: 36px 20px 52px; justify-content: flex-start; }
@@ -193,7 +197,6 @@
 <body>
   <header class="site-header">
     <div class="container nav-wrap">
-      <a class="brand" href="index.html">Amasamos</a>
       <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-label="Abrir menú principal">Menú</button>
       <nav class="nav-menu" data-nav-menu>
         <a class="nav-link active" href="index.html">Home</a>
@@ -215,7 +218,7 @@
   <main class="home-selector">
 
     <div class="home-header">
-      <h1 class="home-brand">Amasamos</h1>
+      <h1 class="home-brand">Orgullo Artesanal</h1>
       <div class="home-divider"></div>
       <p class="home-tagline">Pan artesanal y de calidad para tu negocio — y pizzas irresistibles para tus momentos especiales.</p>
       <p class="home-question">¿Qué buscas hoy?</p>
@@ -236,7 +239,7 @@
 
       <a class="home-card home-card--pizzamos" href="pizzamos.html">
         <div class="home-card__logo">
-          <img src="assets/photos/Logos/Logo Pizzamos-01.png" alt="Logo Pizzamos">
+          <img src="assets/photos/Logos/Nuevo Logo.jpeg" alt="Logo Pizzamos">
         </div>
         <div class="home-card__body">
           <h2>Pizzamos</h2>
