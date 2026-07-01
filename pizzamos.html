@@ -23,6 +23,61 @@
     "parentOrganization": {"@type": "Organization", "name": "Amasamos"}
   }
   </script>
+  <style>
+    .menu-wrap { max-width: 760px; }
+
+    .menu-status {
+      padding: 48px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .menu-status--error { color: #a12b1e; }
+
+    .menu-categories { display: grid; gap: 44px; }
+
+    .menu-category-title {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 1.2rem;
+      color: var(--brand);
+      border-bottom: 2px solid var(--brand);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+
+    .menu-items { display: grid; gap: 18px; }
+
+    .menu-item-line {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .menu-item-name { font-weight: 700; color: var(--ink); }
+
+    .menu-item-dots {
+      flex: 1 1 auto;
+      min-width: 16px;
+      margin: 0 2px 5px;
+      border-bottom: 2px dotted var(--line);
+    }
+
+    .menu-item-price {
+      flex-shrink: 0;
+      font-weight: 700;
+      color: var(--brand);
+      white-space: nowrap;
+    }
+
+    .menu-item-desc {
+      margin: 4px 0 0;
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -60,22 +115,12 @@
     </section>
 
     <section class="section section-menu-pizzamos">
-      <div class="container menu-stack">
-        <figure class="menu-page">
-          <img src="assets/photos/carta/Carta1.png" loading="lazy" alt="Carta Pizzamos página 1 con especialidades y pizzas de la casa">
-        </figure>
-        <figure class="menu-page">
-          <img src="assets/photos/carta/Carta2.png" loading="lazy" alt="Carta Pizzamos página 2 con opciones de pizzas y toppings">
-        </figure>
-        <figure class="menu-page">
-          <img src="assets/photos/carta/Carta3.png" loading="lazy" alt="Carta Pizzamos página 3 con sabores adicionales del menú">
-        </figure>
-        <figure class="menu-page">
-          <img src="assets/photos/carta/Carta4.png" loading="lazy" alt="Carta Pizzamos página 4 con bebidas y acompañamientos">
-        </figure>
-        <figure class="menu-page">
-          <img src="assets/photos/carta/Carta5.png" loading="lazy" alt="Carta Pizzamos página 5 con postres, extras y recomendaciones">
-        </figure>
+      <div class="container menu-wrap">
+        <p class="kicker">Carta digital</p>
+        <h2>Nuestro menú</h2>
+        <div id="menu-loading" class="menu-status">Cargando el menú…</div>
+        <div id="menu-error" class="menu-status menu-status--error" hidden>No pudimos cargar el menú en este momento. Intenta de nuevo más tarde o escríbenos por WhatsApp.</div>
+        <div id="menu-content" class="menu-categories"></div>
       </div>
     </section>
   </main>
@@ -86,5 +131,115 @@
     </div>
   </footer>
 <script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script>
+  // Reemplaza esta URL por el link "Publicar en la web" (formato CSV) de tu Google Sheet del menú.
+  const MENU_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQfSI815ZgY94usFg24IbJMJR7KDdupUUrlKwJqAjQB0tznTG2mYPiMctG8Cio_utcJA5LTNSg5no2g/pub?gid=0&single=true&output=csv';
+
+  (function () {
+    var loadingEl = document.getElementById('menu-loading');
+    var errorEl = document.getElementById('menu-error');
+    var contentEl = document.getElementById('menu-content');
+
+    function formatPrecio(valor) {
+      var numero = Number(String(valor).replace(/[^0-9]/g, ''));
+      if (Number.isNaN(numero)) return valor;
+      return '$' + numero.toLocaleString('es-CO');
+    }
+
+    function renderMenu(filas) {
+      var disponibles = filas.filter(function (fila) {
+        return (fila.Disponible || '').trim().toUpperCase() === 'SI';
+      });
+
+      if (!disponibles.length) {
+        errorEl.textContent = 'Por ahora no hay productos disponibles en el menú.';
+        errorEl.hidden = false;
+        return;
+      }
+
+      var categorias = [];
+      var porCategoria = {};
+      disponibles.forEach(function (fila) {
+        var categoria = (fila.Categoria || 'Otros').trim();
+        if (!porCategoria[categoria]) {
+          porCategoria[categoria] = [];
+          categorias.push(categoria);
+        }
+        porCategoria[categoria].push(fila);
+      });
+
+      var frag = document.createDocumentFragment();
+
+      categorias.forEach(function (categoria) {
+        var seccion = document.createElement('div');
+        seccion.className = 'menu-category';
+
+        var titulo = document.createElement('h3');
+        titulo.className = 'menu-category-title';
+        titulo.textContent = categoria;
+        seccion.appendChild(titulo);
+
+        var lista = document.createElement('div');
+        lista.className = 'menu-items';
+
+        porCategoria[categoria].forEach(function (item) {
+          var fila = document.createElement('div');
+          fila.className = 'menu-item';
+
+          var linea = document.createElement('div');
+          linea.className = 'menu-item-line';
+
+          var nombre = document.createElement('span');
+          nombre.className = 'menu-item-name';
+          nombre.textContent = item.Producto || '';
+
+          var puntos = document.createElement('span');
+          puntos.className = 'menu-item-dots';
+          puntos.setAttribute('aria-hidden', 'true');
+
+          var precio = document.createElement('span');
+          precio.className = 'menu-item-price';
+          precio.textContent = formatPrecio(item.Precio);
+
+          linea.appendChild(nombre);
+          linea.appendChild(puntos);
+          linea.appendChild(precio);
+          fila.appendChild(linea);
+
+          if (item.Descripcion) {
+            var descripcion = document.createElement('p');
+            descripcion.className = 'menu-item-desc';
+            descripcion.textContent = item.Descripcion;
+            fila.appendChild(descripcion);
+          }
+
+          lista.appendChild(fila);
+        });
+
+        seccion.appendChild(lista);
+        frag.appendChild(seccion);
+      });
+
+      contentEl.appendChild(frag);
+    }
+
+    fetch(MENU_CSV_URL)
+      .then(function (respuesta) {
+        if (!respuesta.ok) throw new Error('HTTP ' + respuesta.status);
+        return respuesta.text();
+      })
+      .then(function (csvTexto) {
+        var resultado = Papa.parse(csvTexto, { header: true, skipEmptyLines: true });
+        loadingEl.hidden = true;
+        renderMenu(resultado.data);
+      })
+      .catch(function (error) {
+        console.error('No se pudo cargar el menú de Pizzamos:', error);
+        loadingEl.hidden = true;
+        errorEl.hidden = false;
+      });
+  })();
+</script>
 </body>
 </html>
