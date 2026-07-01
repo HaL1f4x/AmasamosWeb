@@ -47,7 +47,15 @@
       margin-bottom: 20px;
     }
 
-    .menu-items { display: grid; gap: 18px; }
+    .menu-items { display: grid; grid-template-columns: 1fr; gap: 18px; }
+
+    @media (min-width: 640px) {
+      .menu-items { grid-template-columns: repeat(2, 1fr); }
+
+      .menu-items > .menu-item:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+      }
+    }
 
     .menu-item-line {
       display: flex;
