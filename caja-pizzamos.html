@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Caja Pizzamos | Herramienta interna</title>
+  <meta name="description" content="Herramienta interna de caja para escanear carnets de la Familia Pizzamos y registrar visitas.">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .caja-hero { padding: 48px 0 8px; }
+    .caja-hero .container { max-width: 640px; }
+    .caja-hero .kicker { margin-bottom: 8px; }
+    .caja-hero h1 { margin-bottom: 8px; }
+
+    .caja-section .container { max-width: 480px; }
+
+    /* ── Muro de PIN ──────────────────────────────────────── */
+    .pin-card {
+      max-width: 340px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 36px 28px;
+    }
+
+    .pin-card h1 { font-size: 1.5rem; margin-bottom: 8px; }
+    .pin-card p { margin-bottom: 20px; }
+
+    #pin-input {
+      width: 100%;
+      text-align: center;
+      font-size: 1.8rem;
+      letter-spacing: 0.6em;
+      padding: 12px 10px 12px 16px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--bg);
+      color: var(--ink);
+      outline: none;
+      margin-bottom: 14px;
+    }
+
+    #pin-input:focus { border-color: var(--brand); }
+
+    .pin-error {
+      color: #a12b1e;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin: -6px 0 14px;
+    }
+
+    .pin-card .btn { width: 100%; }
+
+    /* ── Escáner ──────────────────────────────────────────── */
+    .scan-status {
+      text-align: center;
+      color: var(--muted);
+      font-weight: 600;
+      margin: 14px 0 0;
+    }
+
+    .qr-reader-box {
+      width: 100%;
+      max-width: 360px;
+      margin: 18px auto 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 1 / 1;
+    }
+
+    .qr-reader-box video,
+    .qr-reader-box canvas {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+    }
+
+    .camera-error {
+      margin-top: 16px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      background: #fdecea;
+      border: 1px solid #f5c6c2;
+      color: #a12b1e;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    .lookup-loading {
+      text-align: center;
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 18px;
+    }
+
+    /* ── Resultado ────────────────────────────────────────── */
+    .result-card,
+    .not-found-card {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .result-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      font-weight: 700;
+      margin: 12px 0 2px;
+    }
+
+    .result-label:first-child { margin-top: 0; }
+
+    .result-value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .result-visitas {
+      margin: 18px 0;
+      padding: 16px;
+      border-radius: 12px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+    }
+
+    .result-visitas .result-label { margin-top: 0; }
+
+    .result-visitas-num {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--brand);
+      line-height: 1.1;
+    }
+
+    #btn-registrar-visita {
+      width: 100%;
+      font-size: 1.1rem;
+      padding: 16px;
+    }
+
+    #btn-registrar-visita:disabled { opacity: 0.7; cursor: not-allowed; }
+
+    .btn-escanear-otro {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .not-found-card .not-found-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 12px;
+      border-radius: 999px;
+      background: #a12b1e;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+
+    .not-found-card h2 { color: #a12b1e; margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html">Amasamos</a>
+      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-label="Abrir menú principal">Menú</button>
+      <nav class="nav-menu" data-nav-menu>
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="pizzamos.html">Pizzamos</a>
+        <a class="nav-link" href="reservas.html">Reservas</a>
+        <a class="nav-link" href="contacto.html">Contáctanos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ── Muro de PIN ────────────────────────────────────── -->
+    <section id="pin-gate" class="section">
+      <div class="container">
+        <form id="pin-form" class="card pin-card" novalidate>
+          <h1>Acceso de caja</h1>
+          <p class="muted">Ingresa el PIN para continuar.</p>
+          <input type="password" id="pin-input" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="····" aria-label="PIN de 4 dígitos">
+          <p id="pin-error" class="pin-error" hidden>PIN incorrecto. Intenta de nuevo.</p>
+          <button type="submit" class="btn primary">Entrar</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ── Herramienta de caja (oculta hasta validar el PIN) ─ -->
+    <div id="caja-app" hidden>
+      <section class="hero caja-hero">
+        <div class="container">
+          <p class="kicker">Herramienta interna</p>
+          <h1>Caja Pizzamos</h1>
+          <p class="muted">Escanea el carnet del cliente para consultar su membresía y registrar la visita.</p>
+        </div>
+      </section>
+
+      <section class="section caja-section">
+        <div class="container">
+
+          <p id="scan-status" class="scan-status">Apunta la cámara al código QR del carnet.</p>
+          <div id="qr-reader" class="qr-reader-box"></div>
+          <p id="camera-error" class="camera-error" hidden>No pudimos acceder a la cámara. Verifica los permisos del navegador y recarga la página.</p>
+
+          <p id="lookup-loading" class="lookup-loading" hidden>Buscando miembro…</p>
+
+          <div id="result-card" class="card result-card" hidden>
+            <p class="result-label">Nombre</p>
+            <p id="result-nombre" class="result-value">—</p>
+
+            <p class="result-label">Empresa / Edificio</p>
+            <p id="result-empresa" class="result-value">—</p>
+
+            <div class="result-visitas">
+              <p class="result-label">Visitas registradas</p>
+              <p id="result-visitas" class="result-visitas-num">0</p>
+            </div>
+
+            <div id="visita-feedback" class="form-feedback" hidden></div>
+
+            <button type="button" id="btn-registrar-visita" class="btn primary">Registrar visita</button>
+            <button type="button" id="btn-escanear-otro" class="btn secondary btn-escanear-otro">Escanear otro</button>
+          </div>
+
+          <div id="not-found-card" class="card not-found-card" hidden>
+            <div class="not-found-icon" aria-hidden="true">!</div>
+            <h2>Miembro no encontrado</h2>
+            <p class="muted">Este código QR no corresponde a ningún miembro registrado.</p>
+            <button type="button" id="btn-escanear-otro-error" class="btn secondary btn-escanear-otro">Escanear otro</button>
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner container">
+      <a href="politica-de-datos.html" class="footer-link">Política de datos — Pizzamos</a>
+      <a href="politica-de-datos-trepando.html" class="footer-link">Política de datos — Trepando</a>
+    </div>
+  </footer>
+<script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+<script>
+  (function () {
+    var ENDPOINT = 'https://script.google.com/macros/s/AKfycbzQW2I5aDy4OOPbLC6kpmzHppfK9MmvdAmZ55xBka-p03HcFxmT0KQGm4cR5Hc6_sGp8Q/exec';
+
+    /* ── PIN de acceso: cámbialo aquí si es necesario ────────── */
+    var PIN_CORRECTO = '2020';
+
+    var pinGate = document.getElementById('pin-gate');
+    var pinForm = document.getElementById('pin-form');
+    var pinInput = document.getElementById('pin-input');
+    var pinError = document.getElementById('pin-error');
+    var cajaApp = document.getElementById('caja-app');
+
+    pinForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (pinInput.value.trim() === PIN_CORRECTO) {
+        pinError.hidden = true;
+        pinGate.hidden = true;
+        cajaApp.hidden = false;
+        iniciarEscaner();
+      } else {
+        pinError.hidden = false;
+        pinInput.value = '';
+        pinInput.focus();
+      }
+    });
+
+    /* ── Escáner de QR ────────────────────────────────────────── */
+    var html5QrCode = null;
+    var procesando = false;
+    var currentId = null;
+
+    var scanStatus = document.getElementById('scan-status');
+    var cameraError = document.getElementById('camera-error');
+    var loadingEl = document.getElementById('lookup-loading');
+    var resultCard = document.getElementById('result-card');
+    var notFoundCard = document.getElementById('not-found-card');
+    var visitaFeedback = document.getElementById('visita-feedback');
+    var btnRegistrar = document.getElementById('btn-registrar-visita');
+
+    function iniciarEscaner() {
+      html5QrCode = new Html5Qrcode('qr-reader');
+      html5QrCode
+        .start(
+          { facingMode: 'environment' },
+          { fps: 10, qrbox: 240 },
+          onScanSuccess,
+          function () { /* ignorar fallos de lectura por cuadro */ }
+        )
+        .catch(function (err) {
+          console.error('No se pudo iniciar la cámara:', err);
+          cameraError.hidden = false;
+        });
+    }
+
+    function onScanSuccess(decodedText) {
+      if (procesando) return;
+      procesando = true;
+
+      scanStatus.hidden = true;
+      cameraError.hidden = true;
+      resultCard.hidden = true;
+      notFoundCard.hidden = true;
+      loadingEl.hidden = false;
+
+      if (html5QrCode) {
+        try { html5QrCode.pause(true); } catch (e) { /* ya podría estar en pausa */ }
+      }
+
+      buscarMiembro(String(decodedText).trim());
+    }
+
+    function extraerVisitas(data) {
+      var campos = ['visitas', 'visitasActuales', 'numVisitas', 'totalVisitas', 'visitCount'];
+      for (var i = 0; i < campos.length; i++) {
+        if (data[campos[i]] != null) return data[campos[i]];
+      }
+      return 0;
+    }
+
+    function buscarMiembro(id) {
+      fetch(ENDPOINT + '?tipo=miembro&id=' + encodeURIComponent(id))
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          loadingEl.hidden = true;
+
+          var noEncontrado = !data || data.encontrado === false || data.found === false || data.error || !data.nombre;
+          if (noEncontrado) {
+            mostrarNoEncontrado();
+            return;
+          }
+
+          mostrarMiembro(id, data);
+        })
+        .catch(function (err) {
+          console.error('Error al buscar el miembro:', err);
+          loadingEl.hidden = true;
+          mostrarNoEncontrado();
+        });
+    }
+
+    function mostrarMiembro(id, data) {
+      currentId = id;
+      document.getElementById('result-nombre').textContent = data.nombre || '—';
+      document.getElementById('result-empresa').textContent = data.empresa || '—';
+      document.getElementById('result-visitas').textContent = extraerVisitas(data);
+      visitaFeedback.hidden = true;
+      btnRegistrar.disabled = false;
+      btnRegistrar.textContent = 'Registrar visita';
+      resultCard.hidden = false;
+    }
+
+    function mostrarNoEncontrado() {
+      currentId = null;
+      notFoundCard.hidden = false;
+    }
+
+    btnRegistrar.addEventListener('click', function () {
+      if (!currentId) return;
+
+      btnRegistrar.disabled = true;
+      btnRegistrar.textContent = 'Registrando…';
+      visitaFeedback.hidden = true;
+
+      fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ action: 'visita', id: currentId }),
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          var nuevoTotal = data ? extraerVisitas(data) : null;
+          var visitasEl = document.getElementById('result-visitas');
+          if (nuevoTotal) {
+            visitasEl.textContent = nuevoTotal;
+          } else {
+            visitasEl.textContent = (parseInt(visitasEl.textContent, 10) || 0) + 1;
+          }
+          btnRegistrar.textContent = 'Visita registrada ✓';
+          setTimeout(reiniciarEscaneo, 1500);
+        })
+        .catch(function (err) {
+          console.error('No se pudo registrar la visita:', err);
+          visitaFeedback.className = 'form-feedback error';
+          visitaFeedback.textContent = 'No se pudo registrar la visita. Intenta de nuevo.';
+          visitaFeedback.hidden = false;
+          btnRegistrar.disabled = false;
+          btnRegistrar.textContent = 'Registrar visita';
+        });
+    });
+
+    function reiniciarEscaneo() {
+      currentId = null;
+      resultCard.hidden = true;
+      notFoundCard.hidden = true;
+      visitaFeedback.hidden = true;
+      btnRegistrar.disabled = false;
+      btnRegistrar.textContent = 'Registrar visita';
+      scanStatus.hidden = false;
+      procesando = false;
+
+      if (html5QrCode) {
+        try { html5QrCode.resume(); } catch (e) { console.warn('No se pudo reanudar el escáner:', e); }
+      }
+    }
+
+    document.getElementById('btn-escanear-otro').addEventListener('click', reiniciarEscaneo);
+    document.getElementById('btn-escanear-otro-error').addEventListener('click', reiniciarEscaneo);
+  })();
+</script>
+</body>
+</html>

@@ -16,7 +16,8 @@
       "Bash(taskkill //F //IM powershell.exe //T)",
       "Bash(powershell -NoProfile -Command 'Get-CimInstance Win32_Process -Filter \"Name='\\\\''pwsh.exe'\\\\''\" | Where-Object { $_.CommandLine -like '\\\\''*static-server.ps1*'\\\\'' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }; '\\\\''done'\\\\''')",
       "Bash(base64 -w0 \"assets/photos/Logos/Nuevo Logo.jpeg\")",
-      "Bash(perl -e ' *)"
+      "Bash(perl -e ' *)",
+      "Bash(tasklist //FI \"IMAGENAME eq pwsh.exe\")"
     ]
   }
 }
