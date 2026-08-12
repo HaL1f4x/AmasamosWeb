@@ -10,7 +10,13 @@
       "PowerShell(Get-Command dotnet,php,ruby -ErrorAction SilentlyContinue)",
       "Bash(iconv -f UTF-16LE -t UTF-8 \"politica-tratamiento-datos-pizzamos.md\")",
       "Bash(iconv -f UTF-16LE -t UTF-8 \"politica-tratamiento-datos-trepando.md\")",
-      "Bash(xxd \"politica-tratamiento-datos-trepando.md\")"
+      "Bash(xxd \"politica-tratamiento-datos-trepando.md\")",
+      "Bash(which python *)",
+      "Bash(taskkill //F //IM pwsh.exe //T)",
+      "Bash(taskkill //F //IM powershell.exe //T)",
+      "Bash(powershell -NoProfile -Command 'Get-CimInstance Win32_Process -Filter \"Name='\\\\''pwsh.exe'\\\\''\" | Where-Object { $_.CommandLine -like '\\\\''*static-server.ps1*'\\\\'' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }; '\\\\''done'\\\\''')",
+      "Bash(base64 -w0 \"assets/photos/Logos/Nuevo Logo.jpeg\")",
+      "Bash(perl -e ' *)"
     ]
   }
 }
