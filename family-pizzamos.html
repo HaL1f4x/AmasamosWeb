@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Familia Pizzamos | Membresía exclusiva</title>
+  <meta name="description" content="Únete a la Familia Pizzamos y desbloquea beneficios exclusivos para clientes frecuentes.">
+  <meta name="robots" content="noindex">
+  <meta property="og:title" content="Familia Pizzamos | Membresía exclusiva">
+  <meta property="og:description" content="Estás invitado a unirte a la Familia Pizzamos. Beneficios exclusivos te esperan.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/photos/Pizza/PizzaSandwich.jpg">
+  <meta property="og:locale" content="es_CO">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .hero-family { padding: 56px 0 20px; }
+    .hero-family .container { max-width: 720px; }
+    .hero-family .kicker { margin-bottom: 8px; }
+    .hero-family h1 { margin-bottom: 12px; }
+    .hero-family-lead { max-width: 38rem; font-size: 1.05rem; }
+
+    .section-beneficios { padding-top: 8px; }
+    .section-beneficios .container { max-width: 760px; }
+
+    .beneficios-status {
+      padding: 32px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .beneficios-status--error { color: #a12b1e; }
+
+    .beneficios-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    @media (min-width: 640px) {
+      .beneficios-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .beneficio-card {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 18px;
+    }
+
+    .beneficio-icon {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: var(--brand);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+    }
+
+    .beneficio-titulo {
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .beneficio-desc {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .section-family-form .container { max-width: 720px; }
+
+    .family-intro { margin-bottom: 8px; }
+
+    .family-form { max-width: 640px; }
+
+    .family-success {
+      max-width: 640px;
+      text-align: center;
+      padding: 40px 28px;
+    }
+
+    .family-success-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      border-radius: 999px;
+      background: var(--brand-2);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+
+    .family-success h2 { margin-bottom: 8px; }
+
+    .family-success-lead { color: var(--muted); margin-bottom: 24px; }
+
+    .family-success-details {
+      text-align: left;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 0 0 24px;
+    }
+
+    .family-success-details dt {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    .family-success-details dt:first-child { margin-top: 0; }
+
+    .family-success-details dd {
+      margin: 2px 0 0;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html">Amasamos</a>
+      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-label="Abrir menú principal">Menú</button>
+      <nav class="nav-menu" data-nav-menu>
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="pizzamos.html">Pizzamos</a>
+        <a class="nav-link" href="reservas.html">Reservas</a>
+        <a class="nav-link" href="contacto.html">Contáctanos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero-family">
+      <div class="container">
+        <p class="kicker">Invitación exclusiva</p>
+        <h1>Bienvenido a la Familia Pizzamos</h1>
+        <p class="hero-family-lead">Alguien pensó en ti para esto. La Familia Pizzamos es nuestra comunidad de clientes frecuentes, con acceso a beneficios, promociones anticipadas y trato preferencial cada vez que nos visitas o pides a domicilio.</p>
+      </div>
+    </section>
+
+    <section class="section section-beneficios">
+      <div class="container">
+        <p class="kicker">Beneficios activos</p>
+        <h2>Esto es lo que te espera</h2>
+        <div id="beneficios-loading" class="beneficios-status">Cargando beneficios…</div>
+        <div id="beneficios-error" class="beneficios-status beneficios-status--error" hidden>No pudimos cargar los beneficios en este momento, pero eso no te impide unirte a la familia.</div>
+        <div id="beneficios-grid" class="beneficios-grid"></div>
+      </div>
+    </section>
+
+    <section class="section section-family-form">
+      <div class="container">
+
+        <div id="family-form-wrap">
+          <div class="family-intro">
+            <p class="kicker">Tu lugar te espera</p>
+            <h2>Sé parte de la familia</h2>
+            <p>Completa tus datos para activar tu membresía. Toma menos de un minuto.</p>
+          </div>
+
+          <form id="family-form" class="card family-form" novalidate>
+            <div class="form-group">
+              <label for="nombre">Nombre completo</label>
+              <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo">
+            </div>
+            <div class="form-group">
+              <label for="telefono">Teléfono / WhatsApp</label>
+              <input type="tel" id="telefono" name="telefono" required placeholder="Ej. 300 361 4569">
+            </div>
+            <div class="form-group">
+              <label for="empresa">Empresa</label>
+              <input type="text" id="empresa" name="empresa" placeholder="Nombre de tu empresa o edificio">
+            </div>
+            <div class="form-group form-consent">
+              <label class="checkbox-label">
+                <input type="checkbox" id="consentimiento" name="consentimiento" required>
+                <span>Autorizo el tratamiento de mis datos personales de acuerdo con la Ley 1581 de 2012 y la
+                  <a href="politica-de-datos.html" target="_blank" rel="noopener">Política de Privacidad de Pizzamos</a>,
+                  para fines de comunicación, envío de promociones, beneficios del programa de membresía y contacto relacionado con mi participación.
+                </span>
+              </label>
+            </div>
+            <div id="form-feedback" class="form-feedback" hidden></div>
+            <button type="submit" class="btn primary">Quiero ser parte</button>
+          </form>
+        </div>
+
+        <div id="family-success" class="card family-success" hidden>
+          <div class="family-success-icon" aria-hidden="true">&#10003;</div>
+          <h2>¡Bienvenido a la familia!</h2>
+          <p class="family-success-lead">Tu membresía quedó activa. Guarda esto de referencia:</p>
+          <dl class="family-success-details">
+            <dt>Nombre</dt>
+            <dd id="success-nombre"></dd>
+            <dt>Teléfono / WhatsApp</dt>
+            <dd id="success-telefono"></dd>
+            <dt>Empresa</dt>
+            <dd id="success-empresa"></dd>
+            <dt>Fecha de ingreso</dt>
+            <dd id="success-fecha"></dd>
+          </dl>
+          <p class="muted">Pronto tendrás noticias nuestras con tus beneficios. Mientras tanto, ¡nos vemos pronto en Pizzamos!</p>
+          <a class="btn whatsapp-cta" href="https://wa.me/573003614569" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><svg class="whatsapp-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.05 4.94A9.94 9.94 0 0 0 12.02 2C6.5 2 2 6.49 2 12a9.93 9.93 0 0 0 1.35 5.01L2 22l5.13-1.34A10 10 0 0 0 12.02 22C17.54 22 22 17.51 22 12a9.94 9.94 0 0 0-2.95-7.06Zm-7.03 15.37a8.27 8.27 0 0 1-4.22-1.15l-.3-.18-3.04.8.81-2.96-.2-.31A8.25 8.25 0 1 1 12.02 20.3Zm4.53-6.16c-.25-.13-1.47-.73-1.7-.81-.23-.08-.4-.13-.57.12-.17.25-.65.81-.8.98-.15.17-.29.19-.54.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.57-1.37-.78-1.87-.21-.5-.42-.43-.57-.44h-.49c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.23.9 2.43 1.02 2.6.13.17 1.77 2.71 4.3 3.8.6.26 1.07.42 1.44.54.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.17-.48-.29Z"></path></svg><span>Escríbenos</span></a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner container">
+      <a href="politica-de-datos.html" class="footer-link">Política de datos — Pizzamos</a>
+      <a href="politica-de-datos-trepando.html" class="footer-link">Política de datos — Trepando</a>
+    </div>
+  </footer>
+<script src="script.js"></script>
+<script>
+  (function () {
+    var ENDPOINT = 'https://script.google.com/macros/s/AKfycbzQW2I5aDy4OOPbLC6kpmzHppfK9MmvdAmZ55xBka-p03HcFxmT0KQGm4cR5Hc6_sGp8Q/exec';
+
+    /* ── Prefill empresa desde el QR ─────────────────────────── */
+    var params = new URLSearchParams(window.location.search);
+    var empresaParam = params.get('empresa');
+    if (empresaParam) {
+      document.getElementById('empresa').value = empresaParam;
+    }
+
+    /* ── Beneficios activos ───────────────────────────────────── */
+    var beneficiosLoading = document.getElementById('beneficios-loading');
+    var beneficiosError = document.getElementById('beneficios-error');
+    var beneficiosGrid = document.getElementById('beneficios-grid');
+
+    function textoBeneficio(item) {
+      if (typeof item === 'string') return { titulo: item, descripcion: '' };
+      var titulo = item.titulo || item.nombre || item.beneficio || item.texto || '';
+      var descripcion = item.descripcion || item.detalle || '';
+      if (!titulo && descripcion) { titulo = descripcion; descripcion = ''; }
+      return { titulo: titulo, descripcion: descripcion };
+    }
+
+    function renderBeneficios(data) {
+      var lista = Array.isArray(data) ? data
+        : Array.isArray(data && data.beneficios) ? data.beneficios
+        : Array.isArray(data && data.data) ? data.data
+        : [];
+
+      if (!lista.length) {
+        beneficiosLoading.hidden = true;
+        beneficiosError.textContent = 'Por ahora no hay beneficios publicados, pero eso no te impide unirte a la familia.';
+        beneficiosError.hidden = false;
+        return;
+      }
+
+      var frag = document.createDocumentFragment();
+      lista.forEach(function (item) {
+        var b = textoBeneficio(item);
+        if (!b.titulo) return;
+
+        var card = document.createElement('div');
+        card.className = 'card beneficio-card';
+
+        var icon = document.createElement('div');
+        icon.className = 'beneficio-icon';
+        icon.setAttribute('aria-hidden', 'true');
+        icon.textContent = '★';
+
+        var body = document.createElement('div');
+
+        var titulo = document.createElement('p');
+        titulo.className = 'beneficio-titulo';
+        titulo.textContent = b.titulo;
+        body.appendChild(titulo);
+
+        if (b.descripcion) {
+          var desc = document.createElement('p');
+          desc.className = 'beneficio-desc';
+          desc.textContent = b.descripcion;
+          body.appendChild(desc);
+        }
+
+        card.appendChild(icon);
+        card.appendChild(body);
+        frag.appendChild(card);
+      });
+
+      beneficiosLoading.hidden = true;
+      beneficiosGrid.appendChild(frag);
+    }
+
+    fetch(ENDPOINT + '?tipo=beneficios')
+      .then(function (respuesta) {
+        if (!respuesta.ok) throw new Error('HTTP ' + respuesta.status);
+        return respuesta.json();
+      })
+      .then(renderBeneficios)
+      .catch(function (error) {
+        console.error('No se pudieron cargar los beneficios de la Familia Pizzamos:', error);
+        beneficiosLoading.hidden = true;
+        beneficiosError.hidden = false;
+      });
+
+    /* ── Formulario de registro ──────────────────────────────── */
+    var formWrap = document.getElementById('family-form-wrap');
+    var form = document.getElementById('family-form');
+    var feedback = document.getElementById('form-feedback');
+    var successWrap = document.getElementById('family-success');
+
+    function showFeedback(type, message) {
+      feedback.className = 'form-feedback ' + type;
+      feedback.textContent = message;
+      feedback.hidden = false;
+      feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function formatFecha(valor) {
+      if (!valor) return new Date().toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
+      var d = new Date(valor);
+      if (isNaN(d.getTime())) return valor;
+      return d.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    function showSuccess(result, fallback) {
+      document.getElementById('success-nombre').textContent = (result && result.nombre) || fallback.nombre;
+      document.getElementById('success-telefono').textContent = (result && result.telefono) || fallback.telefono;
+      document.getElementById('success-empresa').textContent = (result && result.empresa) || fallback.empresa || '—';
+      document.getElementById('success-fecha').textContent = formatFecha(result && result.fecha);
+
+      formWrap.hidden = true;
+      successWrap.hidden = false;
+      successWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      feedback.hidden = true;
+      feedback.className = 'form-feedback';
+
+      if (!form.consentimiento.checked) {
+        showFeedback('error', 'Debes autorizar el tratamiento de tus datos para unirte a la familia.');
+        return;
+      }
+
+      var payload = {
+        action: 'registrar',
+        nombre: form.nombre.value.trim(),
+        telefono: form.telefono.value.trim(),
+        empresa: form.empresa.value.trim(),
+        consentimiento: true,
+      };
+
+      var btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      var originalText = btn.textContent;
+      btn.textContent = 'Enviando…';
+
+      try {
+        var res = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        var result = await res.json();
+        showSuccess(result, payload);
+      } catch (err) {
+        console.error('No se pudo registrar en la Familia Pizzamos:', err);
+        showFeedback('error', 'Ocurrió un error al procesar tu registro. Por favor intenta de nuevo o escríbenos por WhatsApp.');
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    });
+  })();
+</script>
+</body>
+</html>
