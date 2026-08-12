@@ -7,7 +7,10 @@
       "Bash(python3 -c ':*)",
       "Bash(npx --version)",
       "PowerShell(Get-Command python,python3,node,npx -ErrorAction SilentlyContinue)",
-      "PowerShell(Get-Command dotnet,php,ruby -ErrorAction SilentlyContinue)"
+      "PowerShell(Get-Command dotnet,php,ruby -ErrorAction SilentlyContinue)",
+      "Bash(iconv -f UTF-16LE -t UTF-8 \"politica-tratamiento-datos-pizzamos.md\")",
+      "Bash(iconv -f UTF-16LE -t UTF-8 \"politica-tratamiento-datos-trepando.md\")",
+      "Bash(xxd \"politica-tratamiento-datos-trepando.md\")"
     ]
   }
 }
