@@ -50,7 +50,7 @@
       padding: 4px 14px;
       border-radius: 999px;
       background: var(--brand);
-      color: #fff;
+      color: var(--ink); /* blanco sobre #f4a20c no cumple AA; negro sí (~10:1) */
       font-weight: 800;
       font-size: 0.78rem;
       text-transform: uppercase;
@@ -58,7 +58,7 @@
       margin-bottom: 10px;
     }
 
-    .linea-badge.badge-nuevo { background: var(--brand-2); }
+    .linea-badge.badge-nuevo { background: var(--brand-2); color: #fff; }
 
     .linea-seccion h3 { margin: 0 0 10px; }
 
@@ -91,10 +91,10 @@
     }
 
     /* ── Cierre (identidad negro/ámbar de Trepando) ──────────── */
-    .trepando-cta { background: #0d0d0d; }
-    .trepando-cta .kicker { color: #f2a93b; }
+    .trepando-cta { background: var(--ink); }
+    .trepando-cta .kicker { color: var(--brand); } /* sobre negro, --brand puro cumple AA (~10:1) */
     .trepando-cta h2 { color: #fff; }
-    .trepando-cta p { color: rgba(245, 240, 232, 0.75); }
+    .trepando-cta p { color: rgba(255, 255, 255, 0.75); }
 
     .trepando-cta-media img {
       width: 100%;

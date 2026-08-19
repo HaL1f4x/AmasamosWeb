@@ -17,7 +17,18 @@
       "Bash(powershell -NoProfile -Command 'Get-CimInstance Win32_Process -Filter \"Name='\\\\''pwsh.exe'\\\\''\" | Where-Object { $_.CommandLine -like '\\\\''*static-server.ps1*'\\\\'' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }; '\\\\''done'\\\\''')",
       "Bash(base64 -w0 \"assets/photos/Logos/Nuevo Logo.jpeg\")",
       "Bash(perl -e ' *)",
-      "Bash(tasklist //FI \"IMAGENAME eq pwsh.exe\")"
+      "Bash(tasklist //FI \"IMAGENAME eq pwsh.exe\")",
+      "WebSearch",
+      "WebFetch(domain:www.fontsquirrel.com)",
+      "Read(//c//**)",
+      "Read(//c/Users/CarlosAndresChaconRa/**)",
+      "Bash(mkdir -p /tmp/aileron_extract)",
+      "Bash(unzip -o /tmp/aileron.zip)",
+      "Bash(curl -sL \"https://fonts.cdnfonts.com/css/aileron\" -o /tmp/cdnfonts_aileron.css -w \"HTTP %{http_code} size %{size_download}\\\\n\")",
+      "Bash(DEST=\"/c/Users/CarlosAndresChaconRa/OneDrive - ABA Centers of America/Documents/Amasamos/AmasamosWeb/assets/fonts\" *)",
+      "Bash(rm -rf /tmp/aileron.zip /tmp/aileron_extract /tmp/cdnfonts_aileron.css)",
+      "Bash(awk 'NR==417{print length\\($0\\)-length\\(gensub\\(/^ */,\"\",\"g\",$0\\)\\)}' \"family-pizzamos.html\")",
+      "Bash(awk 'NR==417{print \"line417 len=\"length\\($0\\)} NR==418{print \"line418 len=\"length\\($0\\)}' \"family-pizzamos.html\")"
     ]
   }
 }

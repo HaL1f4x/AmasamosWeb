@@ -1,13 +1,55 @@
+/* Aileron (dominio público / CC0) — autohospedada en assets/fonts/, ver LICENSE.txt ahí */
+@font-face {
+  font-family: "Aileron";
+  src: url("assets/fonts/Aileron-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Aileron";
+  src: url("assets/fonts/Aileron-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Aileron";
+  src: url("assets/fonts/Aileron-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Aileron";
+  src: url("assets/fonts/Aileron-Heavy.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Aileron";
+  src: url("assets/fonts/Aileron-Black.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --bg: #f7f2eb;
-  --paper: #fffdf9;
-  --ink: #231a12;
-  --muted: #6f6256;
-  --line: #e8dbc9;
-  --brand: #b14f26;
-  --brand-2: #2f6b52;
+  --bg: #fcf7f0;
+  --paper: #ffffff;
+  --ink: #000000;
+  --muted: #5c5750;
+  --line: #e8ddc9;
+  --brand: #f4a20c;
+  --brand-2: #000000;
+  /* #f4a20c da ~2.1:1 de contraste sobre fondos claros y con texto blanco encima —
+     no cumple AA (4.5:1 texto, 3:1 UI). --brand-text es una variante oscurecida
+     (60% --brand + 40% negro) que sí cumple (~5.3:1), para usar en texto/enlaces/
+     bordes de foco sobre fondo claro. Sobre fondo oscuro, --brand puro ya cumple. */
+  --brand-text: #926107;
   --radius: 16px;
-  --shadow: 0 14px 36px rgba(35, 26, 18, 0.1);
+  --shadow: 0 14px 36px rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -21,11 +63,11 @@ body {
 }
 
 body {
-  font-family: "Segoe UI", "Noto Sans", Arial, sans-serif;
+  font-family: "Aileron", "Segoe UI", "Noto Sans", Arial, sans-serif;
   color: var(--ink);
   background:
-    radial-gradient(circle at 0% 0%, rgba(177, 79, 38, 0.14), transparent 40%),
-    radial-gradient(circle at 100% 50%, rgba(47, 107, 82, 0.1), transparent 40%),
+    radial-gradient(circle at 0% 0%, rgba(244, 162, 12, 0.14), transparent 40%),
+    radial-gradient(circle at 100% 50%, rgba(0, 0, 0, 0.06), transparent 40%),
     var(--bg);
   line-height: 1.6;
 }
@@ -51,7 +93,7 @@ img {
   z-index: 50;
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(8px);
-  background: rgba(255, 253, 249, 0.92);
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .nav-wrap {
@@ -98,7 +140,7 @@ img {
 
 .nav-link:hover,
 .nav-link.active {
-  color: var(--brand);
+  color: var(--brand-text);
 }
 
 .dropdown {
@@ -169,11 +211,11 @@ img {
   width: fit-content;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(255, 253, 249, 0.78);
+  background: rgba(255, 255, 255, 0.78);
 }
 
 .social-proof-stars {
-  color: var(--brand);
+  color: var(--brand-text);
   letter-spacing: 0.12em;
   font-size: 0.92rem;
 }
@@ -189,7 +231,7 @@ img {
 }
 
 .social-proof-link {
-  color: var(--brand);
+  color: var(--brand-text);
   font-size: 0.92rem;
   font-weight: 700;
 }
@@ -213,7 +255,7 @@ img {
   text-transform: uppercase;
   font-size: 0.78rem;
   letter-spacing: 1px;
-  color: var(--brand);
+  color: var(--brand-text);
   font-weight: 800;
 }
 
@@ -291,7 +333,7 @@ p {
 
 .btn.primary {
   background: var(--brand);
-  color: #fff;
+  color: var(--ink); /* blanco sobre #f4a20c da ~2.1:1; negro da ~10:1 */
 }
 
 .btn.secondary {
@@ -393,7 +435,7 @@ p {
 
 .form-group input:focus,
 .form-group select:focus {
-  border-color: var(--brand);
+  border-color: var(--brand-text);
 }
 
 .radio-group {
@@ -475,7 +517,7 @@ p {
 }
 
 .checkbox-label a {
-  color: var(--brand);
+  color: var(--brand-text);
   font-weight: 600;
   text-decoration: underline;
 }
@@ -569,7 +611,7 @@ p {
 }
 
 .politica-toc a {
-  color: var(--brand);
+  color: var(--brand-text);
   font-weight: 600;
   font-size: 0.97rem;
 }
@@ -678,7 +720,8 @@ p {
 }
 
 .whatsapp-btn.amasamos {
-  background: #c85e2f;
+  background: var(--brand);
+  color: var(--ink);
 }
 
 @media (min-width: 860px) {

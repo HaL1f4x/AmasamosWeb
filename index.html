@@ -11,9 +11,8 @@
   <meta property="og:image" content="assets/photos/Logos/LogoPizzamos.png">
   <meta property="og:locale" content="es_CO">
   <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body { background: #F5F0E8; }
+    body { background: var(--bg); }
 
     .home-selector {
       min-height: calc(100vh - 74px);
@@ -22,7 +21,6 @@
       align-items: center;
       justify-content: center;
       padding: 52px 24px 64px;
-      font-family: 'Lato', sans-serif;
     }
 
     .home-header {
@@ -32,10 +30,9 @@
     }
 
     .home-brand {
-      font-family: 'Playfair Display', serif;
       font-size: clamp(3rem, 8vw, 5.5rem);
       font-weight: 900;
-      color: #2C1A0E;
+      color: var(--ink);
       margin: 0 0 16px;
       line-height: 1.1;
     }
@@ -43,14 +40,13 @@
     .home-divider {
       width: 72px;
       height: 4px;
-      background: #3D5C40;
+      background: var(--brand);
       border-radius: 2px;
       margin: 0 auto 22px;
     }
 
     .home-tagline {
-      font-family: 'Lato', sans-serif;
-      color: #2C1A0E;
+      color: var(--ink);
       font-size: 1.05rem;
       line-height: 1.65;
       margin: 0 0 22px;
@@ -58,10 +54,9 @@
     }
 
     .home-question {
-      font-family: 'Playfair Display', serif;
       font-size: 1.35rem;
       font-weight: 700;
-      color: #3D5C40;
+      color: var(--brand-text);
       margin: 0;
     }
 
@@ -82,23 +77,24 @@
       display: flex;
       flex-direction: column;
       transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-      box-shadow: 0 8px 32px rgba(44, 26, 14, 0.18);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
       border: 2px solid transparent;
     }
 
     .home-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 18px 44px rgba(44, 26, 14, 0.26);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26);
     }
 
-    .home-card--amasar { background: #2C1A0E; }
-    .home-card--amasar:hover { border-color: #3D5C40; }
-    .home-card--amasar .home-card__logo { background: #F5F0E8; border-radius: 12px 12px 0 0; }
+    /* Ambas tarjetas comparten el mismo esquema: fondo negro, acento naranja al hover */
+    .home-card--amasar { background: var(--ink); }
+    .home-card--amasar:hover { border-color: var(--brand); }
+    .home-card--amasar .home-card__logo { background: var(--paper); border-radius: 12px 12px 0 0; }
     .home-card--amasar .home-card__logo img { mix-blend-mode: multiply; }
 
-    .home-card--pizzamos { background: #243D27; }
-    .home-card--pizzamos:hover { border-color: #F5F0E8; }
-    .home-card--pizzamos .home-card__logo { background: #F5F0E8; border-radius: 12px 12px 0 0; }
+    .home-card--pizzamos { background: var(--ink); }
+    .home-card--pizzamos:hover { border-color: var(--brand); }
+    .home-card--pizzamos .home-card__logo { background: var(--paper); border-radius: 12px 12px 0 0; }
     .home-card--pizzamos .home-card__logo img { mix-blend-mode: multiply; }
 
     .home-card__image {
@@ -123,7 +119,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(44,26,14,0.05) 0%, rgba(44,26,14,0.30) 100%);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.30) 100%);
     }
 
     .home-card__logo {
@@ -150,33 +146,26 @@
     }
 
     .home-card__body h2 {
-      font-family: 'Playfair Display', serif;
       font-size: 1.5rem;
-      color: #F5F0E8;
+      color: var(--paper);
       margin: 0 0 10px;
     }
 
     .home-card__body p {
-      font-family: 'Lato', sans-serif;
       font-size: 0.95rem;
       line-height: 1.55;
       margin: 0 0 auto;
       padding-bottom: 18px;
+      color: rgba(255,255,255,0.85);
     }
-
-    .home-card--amasar .home-card__body p { color: rgba(245,240,232,0.72); }
-    .home-card--pizzamos .home-card__body p { color: rgba(245,240,232,0.88); }
 
     .home-card__cta {
       display: inline-block;
-      font-family: 'Lato', sans-serif;
       font-weight: 700;
       font-size: 0.97rem;
       letter-spacing: 0.02em;
-      color: #F5F0E8;
+      color: var(--brand);
     }
-
-    .home-card--amasar .home-card__cta { color: #8DAF90; }
 
     @media (max-width: 640px) {
       .home-selector { padding: 36px 20px 52px; justify-content: flex-start; }
@@ -224,7 +213,7 @@
 
       <a class="home-card home-card--pizzamos" href="pizzamos.html">
         <div class="home-card__logo">
-          <img src="assets/photos/Logos/Nuevo Logo.jpeg" alt="Logo Pizzamos">
+          <img src="assets/photos/Logos/Logo Orange.jpg" alt="Logo Pizzamos">
         </div>
         <div class="home-card__body">
           <h2>Pizzamos</h2>
